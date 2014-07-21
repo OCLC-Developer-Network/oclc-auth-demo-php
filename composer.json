@@ -1,0 +1,40 @@
+{
+    "autoload" : {
+        "psr-0" : {
+            "OCLC" : "src"
+        }
+    },
+    "name" : "Auth Demo",
+    "version" : "1.0",
+    "license" : "Apache-2.0",
+    "repositories" : [{
+            "type" : "git",
+            "url" : "https://github.com/OCLC-Developer-Network/oclc-auth-php.git"
+        }
+    ],
+    "require" : {
+        "php" : ">=5.3.3",
+        "lib-curl" : "*",
+        "lib-openssl" : "*",
+        "ext-curl" : "*",
+        "ext-json" : "*",
+        "ext-openssl" : "*",
+        "OCLC/Auth" : "*"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "~3",
+        "behat/behat" : "2.4.*@stable",
+        "behat/common-contexts": "*",
+        "kriswallsmith/buzz":    ">=0.5",
+        "behat/mink" : "*",
+        "behat/mink-goutte-driver" : "*"
+    },
+    "config" : {
+        "bin-dir" : "bin"
+    },
+    "description" : "Demonstrating Authenticating via Explicit Authorization Code flow and accessing the WMS Circulation API",
+    "type" : "library",
+    "keywords" : [
+        "OCLC"
+    ]
+}
