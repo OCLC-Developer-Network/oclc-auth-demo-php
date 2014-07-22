@@ -23,15 +23,15 @@ $options = array('services' => $services, 'redirectUri' => $redirect_uri);
 $wskey = new WSKey($key, $secret, $options);
  
 /* if you have an Access Token or Authorization Code already */
-if (isset($_SESSION['accessToken']) && isset($_GET['code'])) {
+if (isset($_SESSION['accessToken']) || isset($_GET['code'])) {
     /* if you have an Access Token or Authorization Code already */
-    if (empty($_SESSION['AccessToken'])) {
+    if (empty($_SESSION['accessToken'])) {
         /* if you do have an Authorization Code but not an Access Token, use the Authorization code to get an Access Token */
         $accessToken = $wskey->getAccessTokenWithAuthCode($_GET['code'], 128807, 128807);
     
-        $_SESSION['AccessToken'] = $accessToken;
+        $_SESSION['accessToken'] = $accessToken;
     } else {
-        $accessToken = $_SESSION['AccessToken'];
+        $accessToken = $_SESSION['accessToken'];
     }
     include 'app/views/show.php';
 }elseif (isset($_GET['institution'])){ 
