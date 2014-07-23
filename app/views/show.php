@@ -1,4 +1,5 @@
 <?php
+use Guzzle\Http\Client;
 
 if (isset($_GET['branchId'])){
     $branchID = $_GET['branchId'];
@@ -7,28 +8,35 @@ if (isset($_GET['branchId'])){
 }
 
 $parameters = array();
-$parameters['principalID'] = $accessToken->getPrincipalID();
-$parameters['principalIDNS'] = $accessToken->getPrincipalIDNS();
+$parameters['principalID'] = $accessToken->getUser()->getPrincipalID();
+$parameters['principalIDNS'] = $accessToken->getUser()->getPrincipalIDNS();
 $parameters['inst'] = $_SESSION['institution'];
 
-$url = 'https://circ.sd' . $config['institutions'][$_SESSION['institution']]['datacenter'] . '.worldcat.org/pulllist/' . $branchID . '?' . http_build_query($parameters, '', '&');
+if (isset($config['circService'])){
+    $url = $config['circService'];
+} else {
+    $url = 'https://circ.sd' . $config['institutions'][$_SESSION['institution']]['datacenter'] . '.worldcat.org';
+}
+$url .= '/pulllist/' . $branchID . '?' . http_build_query($parameters, '', '&');
 
-$client = new Client();
-$client->getClient()->setDefaultOption('config/curl/' . CURLOPT_SSLVERSION, 3);
-$headers = array();
-$headers['Authorization'] = 'Bearer' . $accessToken->getValue();
-$request = $client->createRequest('GET', $url, $headers);
+
+
+$client = new Client($guzzleOptions);
+$headers = array('Authorization' => 'Bearer ' . $accessToken->getValue());
+$guzzleOptions['headers'] = $headers;
 
 try {
-    $response = $request->send();
-    $pulllistAtom = simplexml_load_string($response->getResponseBody());
+    $response = \Guzzle::get($url, $guzzleOptions);
+    
+    $pulllistAtom = simplexml_load_string($response->getBody(true));
     $pulllistAtom->registerXPathNamespace("atom", "http://www.w3.org/2005/Atom");
-    $pulllistAtom->registerXPathNamespace("pulllist", "http://worldcat.org/xmlschemas/Circulation-1.0");
+    $pulllistAtom->registerXPathNamespace("pulllist", "http://worldcat.org/xmlschemas/CirculationPullList-1.0");
     $pulllistAtom->registerXPathNamespace("bib", "http://worldcat.org/xmlschemas/Bib-1.0");
-    $pulllistItems = $results->xpath('/atom:feed/atom:entry/atom:content/pulllist:itemDescription');
+    $pulllistItems = $pulllistAtom->xpath('/atom:feed/atom:entry/atom:content/pulllist:itemDescription');
     
 } catch (\Guzzle\Http\Exception\BadResponseException $error) {
     echo $error->getResponse()->getStatusCode();
+    echo $error->getRequest();
 }
 
 
@@ -46,17 +54,16 @@ body {
 </head>
 <body>
 <?php 
-foreach ($pullistItems as $item){
-$bibliographicItem = $item->children('http://worldcat.org/xmlschemas/Bib-1.0');
-$title = $bibliographicItem->title;
-$callNumber = $item->callNumber->description;
-$barcode = $item->pieceDesignation;
+foreach ($pulllistItems as $item){
+    $title = $item->bibliographicItem->children('http://worldcat.org/xmlschemas/Bib-1.0')->title;
+    $callNumber = $item->callNumber->description;
+    $barcode = $item->pieceDesignation;
 
 ?>
 <div>
-<p>Title: <?php $title?></p>
-<p>Call Number<?php $callNumber?></p>
-<p>Barcode <?php $barcode?></p>
+<p>Title: <?php echo $title?></p>
+<p>Call Number: <?php echo $callNumber?></p>
+<p>Barcode: <?php echo $barcode?></p>
 </div>
 <?php 
 }?>
