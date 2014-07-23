@@ -53,18 +53,24 @@ body {
 </style>
 </head>
 <body>
-<?php 
-foreach ($pulllistItems as $item){
-    $title = $item->bibliographicItem->children('http://worldcat.org/xmlschemas/Bib-1.0')->title;
-    $callNumber = $item->callNumber->description;
-    $barcode = $item->pieceDesignation;
+<?php
+if (count($pulllistItems > 0)){ 
+    foreach ($pulllistItems as $item){
+        $title = $item->bibliographicItem->children('http://worldcat.org/xmlschemas/Bib-1.0')->title;
+        $callNumber = $item->callNumber->description;
+        $barcode = $item->pieceDesignation;
 
+    ?>
+        <div>
+        <p>Title: <?php echo $title?></p>
+        <p>Call Number: <?php echo $callNumber?></p>
+        <p>Barcode: <?php echo $barcode?></p>
+    </div>
+    <?php 
+    }
+} else {
 ?>
-<div>
-<p>Title: <?php echo $title?></p>
-<p>Call Number: <?php echo $callNumber?></p>
-<p>Barcode: <?php echo $barcode?></p>
-</div>
+<p>No items in this pulllist.</p>
 <?php 
 }?>
 </body>
