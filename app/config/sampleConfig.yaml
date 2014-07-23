@@ -1,0 +1,11 @@
+wskey: {yourKey}
+secret: {yourSecret}
+institutions:
+    {InstitutionRegistryID}:
+        name: {InstitutionName}
+        datacenter: '{InstitutionDataCenter}'
+        defaultBranch: {InstitutionDefaultBranchID}
+    128807:     
+        name: Platform Sandbox
+        datacenter: '00'
+        defaultBranch: 129479
