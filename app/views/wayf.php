@@ -11,8 +11,14 @@ body {
 <body>
 <form name="wayf" action="index.php" method="get">
 <select name="institution">
-<option value="128807">Platform Sandbox</option>
-<option value="91475">WMS Test</option>
+<?php 
+foreach ($config['institutions'] as $institutionId => $institution){
+
+?>
+    <option value="<?php echo $institutionId?>"><?php echo $institution['name']?></option>
+<?php 
+}
+?>
 </select>
 <input type="submit" value="Continue"/>
 </form>
