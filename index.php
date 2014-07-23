@@ -64,6 +64,9 @@ if (isset($_SESSION['accessToken']) || isset($_GET['code'])) {
         unset($_SESSION['accessToken']);
         echo $accessToken->getResponse();
         
+    }elseif ($accessToken->getRefreshToken->isExpired()){
+        unset($_SESSION['accessToken']);
+        include 'app/views/wayf.php';
     }else {
         include 'app/views/show.php';
     }
