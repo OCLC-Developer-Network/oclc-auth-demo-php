@@ -30,6 +30,7 @@ try {
     $pulllistAtom = simplexml_load_string($response->getBody(true));
     $pulllistAtom->registerXPathNamespace("atom", "http://www.w3.org/2005/Atom");
     $pulllistAtom->registerXPathNamespace("pulllist", "http://worldcat.org/xmlschemas/CirculationPullList-1.0");
+    $pulllistAtom->registerXPathNamespace("bib", "http://worldcat.org/xmlschemas/Bib-1.0");
     $pulllistItems = $pulllistAtom->xpath('/atom:feed/atom:entry/atom:content/pulllist:itemDescription');
 } catch (\Guzzle\Http\Exception\BadResponseException $error) {
     echo $error->getResponse()->getStatusCode();
