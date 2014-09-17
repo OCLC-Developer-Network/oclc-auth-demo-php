@@ -9,6 +9,7 @@ body {
 </style>
 </head>
 <body>
+<h1>Please Choose and Institution to log to</h1>
 <form name="wayf" action="index.php" method="get">
 <select name="institution">
 <?php 

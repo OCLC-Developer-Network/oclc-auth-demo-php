@@ -46,7 +46,7 @@ try {
 
 <html>
 <head>
-<title>WAYF Screen</title>
+<title>Results Screen</title>
 <style type="text/css">
 body {
 	font-family: Helvetica, Verdana, sans-serif;
@@ -55,8 +55,9 @@ body {
 </style>
 </head>
 <body>
+<h1>Pulllist Items</h1>
 <?php
-if (count($pulllistItems > 0)){ 
+if (count($pulllistItems) > 0){ 
     foreach ($pulllistItems as $item){
         $title = $item->bibliographicItem->children('http://worldcat.org/xmlschemas/Bib-1.0')->title;
         $callNumber = $item->callNumber->description;
