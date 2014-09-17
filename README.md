@@ -24,7 +24,7 @@ $ php composer.phar install
 
 [Composer](https://getcomposer.org/doc/00-intro.md) is a dependency management library for PHP. It is used to install the required libraries for testing and parsing RDF data. The dependencies are configured in the file `composer.json`.
 
-### Step 3: Comfigure your environment file with your WSKey/secret and other info based on the sample file
+### Step 3: Configure your environment file with your WSKey/secret and other info based on the sample file
 
 ```bash
 $ cd app/config
@@ -33,6 +33,9 @@ $ vi config.yaml
 ```
 
 Enter your WSKey, secret and other information
+
+### Step 4: Make sure your WSKey is configured with the appropriate redirect_uri. 
+This should be http://localhost/oclc-auth-demo-php/index.php
 
 ## Usage
 
