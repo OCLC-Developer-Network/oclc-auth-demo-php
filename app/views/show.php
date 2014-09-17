@@ -22,7 +22,9 @@ $url .= '/pulllist/' . $branchID . '?' . http_build_query($parameters, '', '&');
 
 
 $client = new Client($guzzleOptions);
-$headers = array('Authorization' => 'Bearer ' . $accessToken->getValue());
+//$headers = array('Authorization' => 'Bearer ' . $accessToken->getValue());
+$options = array('user' => $accessToken->getUser());
+$headers = array('Authorization' => $wskey->getHMACSignature('GET', $url, $options));
 $guzzleOptions['headers'] = $headers;
 
 try {
